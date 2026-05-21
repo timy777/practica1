@@ -1,0 +1,14 @@
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\bin\Debug\net8.0\DemoDevOps.exe
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\bin\Debug\net8.0\DemoDevOps.deps.json
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\bin\Debug\net8.0\DemoDevOps.runtimeconfig.json
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\bin\Debug\net8.0\DemoDevOps.dll
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\bin\Debug\net8.0\DemoDevOps.pdb
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\DemoDevOps.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\DemoDevOps.AssemblyInfoInputs.cache
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\DemoDevOps.AssemblyInfo.cs
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\DemoDevOps.csproj.CoreCompileInputs.cache
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\DemoDevOps.dll
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\refint\DemoDevOps.dll
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\DemoDevOps.pdb
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\DemoDevOps.genruntimeconfig.cache
+C:\Users\Hp\Desktop\COSITAS\U\DIPLO\TAREAS\1ER PRACTICA\DemoDevOps\obj\Debug\net8.0\ref\DemoDevOps.dll
