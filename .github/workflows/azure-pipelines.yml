@@ -1,0 +1,75 @@
+name: Pipeline Multistage .NET
+
+# Trigger: Se ejecuta automáticamente al hacer push a main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  # ==========================================
+  # PARTE 5: Configurar Stage CI (Compilación)
+  # ==========================================
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v4
+
+    # 1. Instalar .NET SDK
+    - name: Instalar .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x' # Cambia a 6.x o 7.x si es necesario
+
+    # 2. Restaurar dependencias
+    - name: Restaurar dependencias
+      run: dotnet restore
+
+    # 3. Compilar aplicación
+    - name: Compilar aplicación
+      run: dotnet build --configuration Release --no-restore
+
+  # ==========================================
+  # PARTE 6: Configurar Stage Testing
+  # ==========================================
+  Testing:
+    runs-on: ubuntu-latest
+    needs: CI # Obliga al flujo CI -> Testing. Si CI falla, este no corre.
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v4
+
+    - name: Instalar .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x'
+
+    # 1. Ejecutar pruebas unitarias, 2. Mostrar resultados y 3. Validar errores
+    - name: Ejecutar Pruebas Unitarias
+      run: dotnet test --configuration Release --logger trx
+
+  # ==========================================
+  # PARTE 7: Configurar Stage Delivery
+  # ==========================================
+  Delivery:
+    runs-on: ubuntu-latest
+    needs: Testing # Obliga al flujo Testing -> Delivery. Si Testing falla, este no corre.
+    steps:
+    - name: Clonar repositorio
+      uses: actions/checkout@v4
+
+    - name: Instalar .NET SDK
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.x'
+
+    # 1. Publicar aplicación
+    - name: Publicar Aplicación
+      run: dotnet publish --configuration Release --output ./publish
+
+    # 2. Generar artefactos (Subirlos a GitHub)
+    - name: Confirmar entrega (Guardar Artefactos)
+      uses: actions/upload-artifact@v4
+      with:
+        name: aplicacion-publicada
+        path: ./publish
