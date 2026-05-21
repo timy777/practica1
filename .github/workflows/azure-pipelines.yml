@@ -1,75 +1,86 @@
-name: Pipeline Multistage .NET
+# =========================================================================
+# TRIGGER: Ejecución automática al hacer cambios en la rama main (Parte 8)
+# =========================================================================
+name: Pipeline Multistage .NET (Tareas 3-8)
 
-# Trigger: Se ejecuta automáticamente al hacer push a main
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  # ==========================================
-  # PARTE 5: Configurar Stage CI (Compilación)
-  # ==========================================
-  CI:
+  # =========================================================================
+  # PARTE 5: Configurar Stage CI (Integración Continua)
+  # Objetivo: Validar integración continua, restauración y compilación exitosa.
+  # =========================================================================
+  BuildJob:
+    name: 'Stage CI: BuildJob'
     runs-on: ubuntu-latest
     steps:
-    - name: Clonar repositorio
-      uses: actions/checkout@v4
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
 
-    # 1. Instalar .NET SDK
-    - name: Instalar .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.x' # Cambia a 6.x o 7.x si es necesario
+      # Step 1: Instalar .NET SDK
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x' # Puedes cambiarlo a '6.x' o '7.x' según tu proyecto
 
-    # 2. Restaurar dependencias
-    - name: Restaurar dependencias
-      run: dotnet restore
+      # Step 2: Restaurar dependencias (Verificación Parte 3)
+      - name: Restaurar dependencias
+        run: dotnet restore
 
-    # 3. Compilar aplicación
-    - name: Compilar aplicación
-      run: dotnet build --configuration Release --no-restore
+      # Step 3: Compilar aplicación (Build exitoso Parte 3)
+      - name: Compilar aplicación
+        run: dotnet build --configuration Release --no-restore
 
-  # ==========================================
+  # =========================================================================
   # PARTE 6: Configurar Stage Testing
-  # ==========================================
-  Testing:
+  # Objetivo: Automatizar validación de calidad.
+  # El parámetro 'needs: BuildJob' asegura el flujo obligatorio CI -> Testing
+  # =========================================================================
+  TestJob:
+    name: 'Stage Testing: TestJob'
     runs-on: ubuntu-latest
-    needs: CI # Obliga al flujo CI -> Testing. Si CI falla, este no corre.
+    needs: BuildJob # Si CI falla, este stage NO se ejecuta (Flujo Obligatorio)
     steps:
-    - name: Clonar repositorio
-      uses: actions/checkout@v4
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
 
-    - name: Instalar .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.x'
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
 
-    # 1. Ejecutar pruebas unitarias, 2. Mostrar resultados y 3. Validar errores
-    - name: Ejecutar Pruebas Unitarias
-      run: dotnet test --configuration Release --logger trx
+      # Step 1, 2 y 3: Ejecutar pruebas unitarias, mostrar resultados y validar errores
+      - name: Ejecutar pruebas unitarias
+        run: dotnet test --configuration Release --logger trx
 
-  # ==========================================
+  # =========================================================================
   # PARTE 7: Configurar Stage Delivery
-  # ==========================================
-  Delivery:
+  # Objetivo: Preparar aplicación para despliegue y confirmar entrega.
+  # El parámetro 'needs: TestJob' asegura el flujo obligatorio Testing -> Delivery
+  # =========================================================================
+  DeliveryJob:
+    name: 'Stage Delivery: DeliveryJob'
     runs-on: ubuntu-latest
-    needs: Testing # Obliga al flujo Testing -> Delivery. Si Testing falla, este no corre.
+    needs: TestJob # Si Testing falla, este stage NO se ejecuta (Flujo Obligatorio)
     steps:
-    - name: Clonar repositorio
-      uses: actions/checkout@v4
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
 
-    - name: Instalar .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.x'
+      - name: Instalar .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
 
-    # 1. Publicar aplicación
-    - name: Publicar Aplicación
-      run: dotnet publish --configuration Release --output ./publish
+      # Step 1: Publicar aplicación
+      - name: Publicar aplicación
+        run: dotnet publish --configuration Release --output ./publish_output
 
-    # 2. Generar artefactos (Subirlos a GitHub)
-    - name: Confirmar entrega (Guardar Artefactos)
-      uses: actions/upload-artifact@v4
-      with:
-        name: aplicacion-publicada
-        path: ./publish
+      # Step 2 y 3: Generar artefactos y Confirmar entrega
+      - name: Confirmar entrega (Generar artefactos)
+        uses: actions/upload-artifact@v4
+        with:
+          name: artefactos-aplicacion
+          path: ./publish_output
